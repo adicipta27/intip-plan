@@ -474,4 +474,4 @@ onSnapshot(historyRef, (snapshot) => {
   renderHistoryList(allRawHistory, activeChannel, historyList);
 });
 
-switchChannel("gosip");
+switchChannel("politik");
