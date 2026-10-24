@@ -10,16 +10,30 @@
     .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    /* Efek Pola Background Halus */
+    .bg-pattern-gosip {
+      background-color: #fff1f2;
+      background-image: radial-gradient(#fda4af 0.75px, transparent 0.75px), radial-gradient(#fda4af 0.75px, #fff1f2 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+    .bg-pattern-politik {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px), radial-gradient(#cbd5e1 0.75px, #f8fafc 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
   </style>
 </head>
-<body id="bodyBg" class="bg-slate-100 min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-colors duration-300">
+<body id="bodyBg" class="bg-pattern-gosip min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500">
 
   <div class="max-w-6xl w-full mx-auto space-y-6 min-w-0 box-border">
     
     <!-- HEADER APP MODERN -->
-    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="bg-white/90 backdrop-blur-md p-5 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <div id="headerAvatar" class="w-12 h-12 rounded-xl bg-rose-500 text-white flex items-center justify-center text-2xl font-black shadow-xs">
+        <div id="headerAvatar" class="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl font-black shadow-md shadow-rose-500/20">
           <span id="headerEmoji">💖</span>
         </div>
         <div>
@@ -38,7 +52,7 @@
     </div>
 
     <!-- CHANNEL NAV TAB SWITCHER -->
-    <div class="flex items-center gap-2 bg-slate-200/60 p-1.5 rounded-2xl border border-slate-300/50">
+    <div class="flex items-center gap-2 bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200/80 shadow-2xs">
       <button id="tabGosip" class="flex-1 py-2.5 text-xs sm:text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs bg-rose-500 text-white">
         🎬 YT Intip Gosip
       </button>
@@ -47,48 +61,46 @@
       </button>
     </div>
 
-    <!-- FORM INPUT BARU (TAMPILAN COMPACT & MODERN) -->
-    <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/80 space-y-4">
+    <!-- FORM INPUT BARU -->
+    <div class="bg-white/95 backdrop-blur-md rounded-3xl p-5 sm:p-6 shadow-xs border border-slate-200/80 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
           <h2 class="text-sm font-black uppercase tracking-wider text-slate-800">Input Bahan Video TikTok</h2>
         </div>
-        <span id="activeChannelBadge" class="text-[11px] font-black px-3 py-1 rounded-full bg-rose-500 text-white uppercase tracking-wider">
+        <span id="activeChannelBadge" class="text-[11px] font-black px-3 py-1 rounded-full bg-rose-500 text-white uppercase tracking-wider shadow-2xs">
           TARGET: INTIP GOSIP
         </span>
       </div>
 
       <form id="tiktokForm" onsubmit="return false;" class="space-y-3">
-        <!-- BARIS 1: LINK TIKTOK + PASTE + AMBIL CAPTION -->
         <div class="flex flex-col md:flex-row gap-2">
           <div class="flex-1 flex gap-1.5">
-            <input type="text" id="tiktokUrl" placeholder="Tempel link video TikTok di sini..." class="w-full text-xs sm:text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
-            <button type="button" id="btnPaste" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2.5 rounded-xl text-xs whitespace-nowrap transition-all border border-slate-200 cursor-pointer">
+            <input type="text" id="tiktokUrl" placeholder="Tempel link video TikTok di sini..." class="w-full text-xs sm:text-sm px-3.5 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
+            <button type="button" id="btnPaste" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3.5 py-3 rounded-2xl text-xs whitespace-nowrap transition-all border border-slate-200 cursor-pointer">
               📋 Paste
             </button>
           </div>
-          <button type="button" id="btnFetch" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs whitespace-nowrap transition-all cursor-pointer">
+          <button type="button" id="btnFetch" class="bg-slate-900 hover:bg-black text-white font-bold px-5 py-3 rounded-2xl text-xs whitespace-nowrap transition-all cursor-pointer shadow-xs">
             🔍 Fetch Data
           </button>
         </div>
 
-        <!-- BARIS 2: DURASI, KATEGORI, CATATAN & TOMBOL SIMPAN (SATU GRID) -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-2.5 items-end">
           <div>
             <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Durasi Video *</label>
-            <input type="text" id="tiktokDuration" placeholder="Contoh: 45 atau 1.25" class="w-full text-xs px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
+            <input type="text" id="tiktokDuration" placeholder="Contoh: 45 atau 1.25" class="w-full text-xs px-3.5 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
           </div>
           <div>
             <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Kategori</label>
-            <input type="text" id="tiktokCategory" placeholder="Artis, Skandal, Dll..." class="w-full text-xs px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
+            <input type="text" id="tiktokCategory" placeholder="Artis, Skandal, Dll..." class="w-full text-xs px-3.5 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
           </div>
           <div>
             <label class="block text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1">Caption / Catatan</label>
-            <input type="text" id="tiktokCaption" placeholder="Catatan video..." class="w-full text-xs px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
+            <input type="text" id="tiktokCaption" placeholder="Catatan video..." class="w-full text-xs px-3.5 py-3 border border-slate-200 rounded-2xl focus:outline-none focus:border-slate-800 bg-slate-50/50">
           </div>
           <div>
-            <button type="button" id="btnSave" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-black py-2.5 rounded-xl text-xs transition-all shadow-xs uppercase tracking-wider cursor-pointer">
+            <button type="button" id="btnSave" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-black py-3 rounded-2xl text-xs transition-all shadow-md uppercase tracking-wider cursor-pointer">
               + Simpan (Enter)
             </button>
           </div>
@@ -100,16 +112,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start w-full min-w-0">
       
       <!-- KOLOM KIRI: SIAP SYUTING -->
-      <div class="bg-white border border-slate-200/80 rounded-2xl p-5 space-y-4 shadow-xs">
+      <div class="bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <h2 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
             🎯 Siap Syuting ( <span id="countSyuting">0</span> )
           </h2>
           <div class="flex items-center gap-2 flex-wrap">
-            <button id="btnCopySyuting" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3 py-2 rounded-xl font-bold opacity-60 cursor-not-allowed transition-all">
+            <button id="btnCopySyuting" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-bold opacity-60 cursor-not-allowed transition-all">
               📋 Copy Poin
             </button>
-            <button id="btnSelesaiSyuting" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3 py-2 rounded-xl font-semibold opacity-60 cursor-not-allowed transition-all">
+            <button id="btnSelesaiSyuting" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-semibold opacity-60 cursor-not-allowed transition-all">
               ✅ Selesai
             </button>
           </div>
@@ -118,13 +130,13 @@
         <div id="batchTabsContainer"></div>
 
         <!-- ESTIMASI EDIT YOUTUBE BANNER -->
-        <div class="bg-slate-900 text-white p-4 rounded-xl space-y-1 shadow-xs">
+        <div class="bg-slate-900 text-white p-4.5 rounded-2xl space-y-1 shadow-md">
           <div class="flex justify-between items-start flex-wrap gap-2">
             <div>
               <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">⏱️ Estimasi Hasil Edit YouTube</div>
               <div id="totalYtDuration" class="text-xl sm:text-2xl font-black text-white mt-0.5">0 Menit 0 Detik</div>
             </div>
-            <div id="badgeTikTokSum" class="text-[10px] font-bold bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">
+            <div id="badgeTikTokSum" class="text-[10px] font-bold bg-slate-800 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700">
               TOTAL BAHAN: 0s
             </div>
           </div>
@@ -134,7 +146,7 @@
       </div>
 
       <!-- KOLOM KANAN: BANK VIDEO -->
-      <div class="bg-white rounded-2xl p-5 space-y-4 shadow-xs border border-slate-200/80">
+      <div class="bg-white/95 backdrop-blur-md rounded-3xl p-5 sm:p-6 space-y-4 shadow-xs border border-slate-200/80">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <h2 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
             📦 Bank Video ( <span id="countBank">0</span> )
@@ -150,57 +162,57 @@
 
   <!-- MODAL EDIT -->
   <div id="editModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
         <h3 class="font-bold text-sm">Edit Data Video</h3>
         <button id="btnCloseModalX" class="text-slate-400 hover:text-black text-lg cursor-pointer">✕</button>
       </div>
-      <div class="space-y-2.5 text-xs">
+      <div class="space-y-3 text-xs">
         <div>
           <label class="block font-bold mb-1">Durasi</label>
-          <input type="text" id="modalDurationInput" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none">
+          <input type="text" id="modalDurationInput" class="w-full p-3 border border-slate-200 rounded-2xl focus:outline-none">
         </div>
         <div>
           <label class="block font-bold mb-1">Kategori</label>
-          <input type="text" id="modalCategoryInput" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none">
+          <input type="text" id="modalCategoryInput" class="w-full p-3 border border-slate-200 rounded-2xl focus:outline-none">
         </div>
         <div>
           <label class="block font-bold mb-1">Caption</label>
-          <textarea id="modalCaptionInput" rows="3" class="w-full p-2.5 border border-slate-200 rounded-xl focus:outline-none"></textarea>
+          <textarea id="modalCaptionInput" rows="3" class="w-full p-3 border border-slate-200 rounded-2xl focus:outline-none"></textarea>
         </div>
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button id="btnCancelEdit" class="px-3.5 py-2 bg-slate-100 rounded-xl font-bold text-xs cursor-pointer">Batal</button>
-        <button id="btnSaveEdit" class="px-3.5 py-2 bg-slate-900 text-white rounded-xl font-bold text-xs cursor-pointer">Simpan</button>
+        <button id="btnCancelEdit" class="px-4 py-2.5 bg-slate-100 rounded-2xl font-bold text-xs cursor-pointer">Batal</button>
+        <button id="btnSaveEdit" class="px-4 py-2.5 bg-slate-900 text-white rounded-2xl font-bold text-xs cursor-pointer">Simpan</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL CUSTOM ALERT -->
   <div id="customAlertModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 text-center space-y-3 shadow-2xl">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-3 shadow-2xl">
       <h3 id="customAlertTitle" class="font-bold text-base text-slate-900">Peringatan!</h3>
       <p id="customAlertMessage" class="text-xs text-slate-600 leading-relaxed"></p>
-      <button id="btnCloseCustomAlert" class="w-full py-2.5 bg-slate-900 text-white font-bold rounded-xl text-xs cursor-pointer">Mengerti</button>
+      <button id="btnCloseCustomAlert" class="w-full py-3 bg-slate-900 text-white font-bold rounded-2xl text-xs cursor-pointer">Mengerti</button>
     </div>
   </div>
 
   <!-- MODAL CONFIRMATION -->
   <div id="confirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 space-y-3 shadow-2xl">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
       <h3 class="font-bold text-base text-slate-900">Konfirmasi Selesai</h3>
       <p class="text-xs text-slate-600 leading-relaxed">Apakah kamu yakin ingin menyelesaikan sesi syuting ini? Video akan dipindahkan ke Riwayat.</p>
       <div class="flex gap-2">
-        <button id="btnCancelConfirm" class="w-1/2 py-2.5 bg-slate-100 font-bold rounded-xl text-xs text-slate-700 cursor-pointer">Batal</button>
-        <button id="btnActionConfirm" class="w-1/2 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs cursor-pointer">Ya, Selesai</button>
+        <button id="btnCancelConfirm" class="w-1/2 py-3 bg-slate-100 font-bold rounded-2xl text-xs text-slate-700 cursor-pointer">Batal</button>
+        <button id="btnActionConfirm" class="w-1/2 py-3 bg-emerald-600 text-white font-bold rounded-2xl text-xs cursor-pointer">Ya, Selesai</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL HISTORY -->
   <div id="historyModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-xl w-full max-h-[85vh] flex flex-col p-5 space-y-3 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[85vh] flex flex-col p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
         <div>
           <h3 class="font-bold text-base text-slate-900">Riwayat Syuting</h3>
           <p id="historySubTitle" class="text-xs text-slate-400">Menampilkan riwayat</p>
