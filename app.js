@@ -57,16 +57,6 @@ const categoryTabs = document.getElementById("categoryTabs");
 const totalYtDuration = document.getElementById("totalYtDuration");
 const badgeTikTokSum = document.getElementById("badgeTikTokSum");
 
-// EVENT LISTENER ENTER PADA KOLOM INPUT DURASI
-if (tiktokDurationInput) {
-  tiktokDurationInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault(); // Mencegah form reload/submit default
-      if (btnSave) btnSave.click(); // Otomatis mentrigger klik tombol Simpan
-    }
-  });
-}
-
 // Modal Elements
 const editModal = document.getElementById("editModal");
 const modalCaptionInput = document.getElementById("modalCaptionInput");
@@ -202,6 +192,18 @@ function parseDurationToSeconds(val) {
   return parseInt(str, 10) || 0;
 }
 
+// FITUR ENTER PADA INPUT FORM
+[tiktokUrlInput, tiktokDurationInput, tiktokCategoryInput, tiktokCaptionInput].forEach(input => {
+  if (input) {
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (btnSave) btnSave.click();
+      }
+    });
+  }
+});
+
 if (btnSave) {
   btnSave.addEventListener("click", async () => {
     const url = tiktokUrlInput.value.trim();
@@ -238,6 +240,7 @@ if (btnSave) {
       tiktokCategoryInput.value = "";
       currentThumbnail = "";
       currentAuthor = "";
+      tiktokUrlInput.focus(); // Otomatis fokus kembali ke input link untuk input berikutnya
     } catch (e) {
       showCustomAlert("Gagal Menyimpan", "Terjadi kesalahan pada database.");
     }
