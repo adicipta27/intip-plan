@@ -94,26 +94,30 @@ window.switchChannel = (channel) => {
   selectedCategory = "Semua";
 
   if (activeChannel === "gosip") {
-    bodyBg.style.backgroundColor = "#f8fafc";
-    headerAvatar.className = "w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center text-xl font-black shadow-xs";
+    // Ubah background ke pola Pink/Rose Intip Gosip
+    bodyBg.className = "bg-pattern-gosip min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
+    
+    headerAvatar.className = "w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl font-black shadow-md shadow-rose-500/20";
     headerEmoji.innerText = "💖";
     headerTitleText.innerText = "INTIP GOSIP PLANNER";
-    tabGosip.className = "flex-1 py-2.5 text-xs font-black rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs bg-rose-500 text-white";
-    tabPolitik.className = "flex-1 py-2.5 text-xs font-bold text-slate-600 hover:text-slate-900 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer";
+    tabGosip.className = "flex-1 py-2.5 text-xs sm:text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs bg-rose-500 text-white";
+    tabPolitik.className = "flex-1 py-2.5 text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer";
     activeChannelBadge.innerText = "TARGET: INTIP GOSIP";
-    activeChannelBadge.className = "text-[11px] font-black px-3 py-1 rounded-full bg-rose-500 text-white uppercase tracking-wider";
-    btnSave.className = "w-full bg-rose-500 hover:bg-rose-600 text-white font-black py-2.5 rounded-xl text-xs transition-all shadow-xs uppercase tracking-wider cursor-pointer";
+    activeChannelBadge.className = "text-[11px] font-black px-3 py-1 rounded-full bg-rose-500 text-white uppercase tracking-wider shadow-2xs";
+    btnSave.className = "w-full bg-rose-500 hover:bg-rose-600 text-white font-black py-3 rounded-2xl text-xs transition-all shadow-md uppercase tracking-wider cursor-pointer";
     if (historySubTitle) historySubTitle.innerText = "Menampilkan riwayat YT Intip Gosip";
   } else {
-    bodyBg.style.backgroundColor = "#f1f5f9";
-    headerAvatar.className = "w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl font-black shadow-xs";
+    // Ubah background ke pola Slate/Blue Intip Politik
+    bodyBg.className = "bg-pattern-politik min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
+    
+    headerAvatar.className = "w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl font-black shadow-md shadow-blue-600/20";
     headerEmoji.innerText = "🏛️";
     headerTitleText.innerText = "INTIP POLITIK PLANNER";
-    tabPolitik.className = "flex-1 py-2.5 text-xs font-black rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs bg-blue-600 text-white";
-    tabGosip.className = "flex-1 py-2.5 text-xs font-bold text-slate-600 hover:text-slate-900 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer";
+    tabPolitik.className = "flex-1 py-2.5 text-xs sm:text-sm font-black rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs bg-blue-600 text-white";
+    tabGosip.className = "flex-1 py-2.5 text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer";
     activeChannelBadge.innerText = "TARGET: INTIP POLITIK";
-    activeChannelBadge.className = "text-[11px] font-black px-3 py-1 rounded-full bg-blue-600 text-white uppercase tracking-wider";
-    btnSave.className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 rounded-xl text-xs transition-all shadow-xs uppercase tracking-wider cursor-pointer";
+    activeChannelBadge.className = "text-[11px] font-black px-3 py-1 rounded-full bg-blue-600 text-white uppercase tracking-wider shadow-2xs";
+    btnSave.className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3 rounded-2xl text-xs transition-all shadow-md uppercase tracking-wider cursor-pointer";
     if (historySubTitle) historySubTitle.innerText = "Menampilkan riwayat YT Intip Politik";
   }
   renderApp(allRawVideos);
