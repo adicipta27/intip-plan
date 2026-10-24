@@ -57,6 +57,16 @@ const categoryTabs = document.getElementById("categoryTabs");
 const totalYtDuration = document.getElementById("totalYtDuration");
 const badgeTikTokSum = document.getElementById("badgeTikTokSum");
 
+// EVENT LISTENER ENTER PADA KOLOM INPUT DURASI
+if (tiktokDurationInput) {
+  tiktokDurationInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Mencegah form reload/submit default
+      if (btnSave) btnSave.click(); // Otomatis mentrigger klik tombol Simpan
+    }
+  });
+}
+
 // Modal Elements
 const editModal = document.getElementById("editModal");
 const modalCaptionInput = document.getElementById("modalCaptionInput");
