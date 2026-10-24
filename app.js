@@ -95,7 +95,7 @@ window.switchChannel = (channel) => {
 
   if (activeChannel === "gosip") {
     // Ubah background ke pola Pink/Rose Intip Gosip
-    bodyBg.className = "bg-pattern-gosip min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
+    bodyBg.className = "bg-logo-gosip min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
     
     headerAvatar.className = "w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl font-black shadow-md shadow-rose-500/20";
     headerEmoji.innerText = "💖";
@@ -108,7 +108,7 @@ window.switchChannel = (channel) => {
     if (historySubTitle) historySubTitle.innerText = "Menampilkan riwayat YT Intip Gosip";
   } else {
     // Ubah background ke pola Slate/Blue Intip Politik
-    bodyBg.className = "bg-pattern-politik min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
+    bodyBg.className = "bg-logo-politik min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
     
     headerAvatar.className = "w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl font-black shadow-md shadow-blue-600/20";
     headerEmoji.innerText = "🏛️";
