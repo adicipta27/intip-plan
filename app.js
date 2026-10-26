@@ -88,15 +88,23 @@ if (btnCloseCustomAlert) {
   btnCloseCustomAlert.addEventListener("click", () => customAlertModal.classList.add("hidden"));
 }
 
+// Fungsi Salin Link Satuan
+window.copySingleLink = async (url) => {
+  try {
+    await navigator.clipboard.writeText(url);
+    showCustomAlert("Berhasil Disalin! 📋", "Link TikTok berhasil disalin ke clipboard.");
+  } catch (e) {
+    showCustomAlert("Gagal", "Tidak dapat menyalin link.");
+  }
+};
+
 window.switchChannel = (channel) => {
   activeChannel = channel;
   hasCopiedSyuting = false;
   selectedCategory = "Semua";
 
   if (activeChannel === "gosip") {
-    // Ubah background ke pola Pink/Rose Intip Gosip
     bodyBg.className = "bg-logo-gosip min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
-    
     headerAvatar.className = "w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl font-black shadow-md shadow-rose-500/20";
     headerEmoji.innerText = "💖";
     headerTitleText.innerText = "INTIP GOSIP PLANNER";
@@ -107,9 +115,7 @@ window.switchChannel = (channel) => {
     btnSave.className = "w-full bg-rose-500 hover:bg-rose-600 text-white font-black py-3 rounded-2xl text-xs transition-all shadow-md uppercase tracking-wider cursor-pointer";
     if (historySubTitle) historySubTitle.innerText = "Menampilkan riwayat YT Intip Gosip";
   } else {
-    // Ubah background ke pola Slate/Blue Intip Politik
     bodyBg.className = "bg-logo-politik min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500";
-    
     headerAvatar.className = "w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl font-black shadow-md shadow-blue-600/20";
     headerEmoji.innerText = "🏛️";
     headerTitleText.innerText = "INTIP POLITIK PLANNER";
@@ -201,7 +207,6 @@ function parseDurationToSeconds(val) {
   return parseInt(str, 10) || 0;
 }
 
-// FUNGSI UTAMA UNTUK SIMPAN DATA VIDEO
 async function saveVideoData() {
   const url = tiktokUrlInput.value.trim();
   const rawDuration = tiktokDurationInput.value.trim();
@@ -243,7 +248,6 @@ async function saveVideoData() {
   }
 }
 
-// LOGIKA PRESSED ENTER DIRECT HANDLER
 [tiktokUrlInput, tiktokDurationInput, tiktokCategoryInput, tiktokCaptionInput].forEach(input => {
   if (input) {
     input.addEventListener("keydown", (e) => {
@@ -284,8 +288,8 @@ function renderBankList() {
   const addBtnClass = activeChannel === "gosip" ? "bg-rose-500 hover:bg-rose-600 text-white" : "bg-blue-600 hover:bg-blue-700 text-white";
 
   listBank.innerHTML = filtered.map(item => `
-    <div class="bg-slate-50 border border-slate-200/80 p-3 rounded-xl flex gap-3 items-start w-full">
-      ${item.thumbnail ? `<img src="${item.thumbnail}" referrerpolicy="no-referrer" class="w-24 h-32 object-cover rounded-lg flex-shrink-0 bg-slate-100 border border-slate-200"/>` : `<div class="w-24 h-32 bg-slate-200 rounded-lg flex items-center justify-center text-[10px] text-slate-400">No Image</div>`}
+    <div class="bg-slate-50 border border-slate-200/80 p-3 rounded-2xl flex gap-3 items-start w-full">
+      ${item.thumbnail ? `<img src="${item.thumbnail}" referrerpolicy="no-referrer" class="w-24 h-32 object-cover rounded-xl flex-shrink-0 bg-slate-100 border border-slate-200"/>` : `<div class="w-24 h-32 bg-slate-200 rounded-xl flex items-center justify-center text-[10px] text-slate-400">No Image</div>`}
       <div class="flex-1 space-y-1.5 flex flex-col justify-between self-stretch min-w-0">
         <div>
           <div class="flex items-center gap-1 flex-wrap mb-1">
@@ -295,7 +299,10 @@ function renderBankList() {
           <p class="text-xs font-bold text-slate-800 line-clamp-2">${escapeHtml(item.caption)}</p>
         </div>
         <div class="flex justify-between items-center text-xs pt-1.5 border-t border-slate-200/60">
-          <a href="${item.url}" target="_blank" class="text-slate-900 font-bold hover:underline text-[11px]">Buka TikTok ↗</a>
+          <div class="flex items-center gap-2">
+            <a href="${item.url}" target="_blank" class="text-slate-900 font-bold hover:underline text-[11px]">Buka TikTok ↗</a>
+            <button onclick="window.copySingleLink('${escapeHtml(item.url)}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-2 py-1 rounded-lg text-[11px] transition-all cursor-pointer">📋 Copy Link</button>
+          </div>
           <div class="space-x-1.5">
             <button onclick="window.toggleStatus('${item.id}', 'syuting')" class="${addBtnClass} px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer">+ Sesi #${activeBatch}</button>
             <button onclick="window.openEditModal('${item.id}')" class="text-slate-500 hover:text-slate-900 text-xs font-semibold cursor-pointer">Edit</button>
@@ -474,4 +481,4 @@ onSnapshot(historyRef, (snapshot) => {
   renderHistoryList(allRawHistory, activeChannel, historyList);
 });
 
-switchChannel("politik");
+switchChannel("gosip");
