@@ -366,6 +366,7 @@ function updateSyutingButtonsState() {
     }
   }
 
+  // Tombol Copy Link All bebas aktif kapanpun selama ada video di sesi ini
   if (btnCopyLinksAll) {
     if (currentBatchItems.length > 0) {
       btnCopyLinksAll.disabled = false;
@@ -373,6 +374,16 @@ function updateSyutingButtonsState() {
     } else {
       btnCopyLinksAll.disabled = true;
       btnCopyLinksAll.className = "bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3 py-2 rounded-xl font-bold opacity-60 cursor-not-allowed";
+    }
+  }
+
+  if (btnSelesaiSyuting) {
+    if (currentBatchItems.length > 0 && hasCopiedSyuting) {
+      btnSelesaiSyuting.disabled = false;
+      btnSelesaiSyuting.className = "bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-2 rounded-xl font-bold cursor-pointer transition-all";
+    } else {
+      btnSelesaiSyuting.disabled = true;
+      btnSelesaiSyuting.className = "bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3 py-2 rounded-xl font-semibold opacity-60 cursor-not-allowed";
     }
   }
 }
@@ -385,10 +396,7 @@ if (btnCopySyuting) {
     try {
       await navigator.clipboard.writeText(txt);
       hasCopiedSyuting = true;
-      if (btnSelesaiSyuting) {
-        btnSelesaiSyuting.disabled = false;
-        btnSelesaiSyuting.className = "bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-2 rounded-xl font-bold cursor-pointer transition-all";
-      }
+      updateSyutingButtonsState();
       showCustomAlert("Berhasil Disalin! 📋", "Poin-poin video siap digunakan.");
     } catch (e) {
       showCustomAlert("Gagal", "Tidak dapat menyalin ke clipboard.");
@@ -396,11 +404,9 @@ if (btnCopySyuting) {
   });
 }
 
-// LOGIKA TOMBOL COPY LINK ALL
 if (btnCopyLinksAll) {
   btnCopyLinksAll.addEventListener("click", async () => {
     if (currentBatchItems.length === 0) return;
-    // Menggabungkan semua URL video dengan baris baru (newline)
     let linksText = currentBatchItems.map(item => item.url).join("\n");
     try {
       await navigator.clipboard.writeText(linksText);
@@ -506,4 +512,4 @@ onSnapshot(historyRef, (snapshot) => {
   renderHistoryList(allRawHistory, activeChannel, historyList);
 });
 
-switchChannel("gosip");
+switchChannel("politik");
