@@ -53,6 +53,7 @@ const listBank = document.getElementById("listBank");
 const countSyuting = document.getElementById("countSyuting");
 const countBank = document.getElementById("countBank");
 const btnCopySyuting = document.getElementById("btnCopySyuting");
+const btnCopyLinksAll = document.getElementById("btnCopyLinksAll");
 const btnSelesaiSyuting = document.getElementById("btnSelesaiSyuting");
 const categoryTabs = document.getElementById("categoryTabs");
 const totalYtDuration = document.getElementById("totalYtDuration");
@@ -88,7 +89,6 @@ if (btnCloseCustomAlert) {
   btnCloseCustomAlert.addEventListener("click", () => customAlertModal.classList.add("hidden"));
 }
 
-// Fungsi Salin Link Satuan
 window.copySingleLink = async (url) => {
   try {
     await navigator.clipboard.writeText(url);
@@ -352,10 +352,10 @@ function renderApp(items) {
 
   renderSyutingList(currentBatchItems, activeChannel, listSyuting);
   renderBankList();
-  updateSelesaiBtnState();
+  updateSyutingButtonsState();
 }
 
-function updateSelesaiBtnState() {
+function updateSyutingButtonsState() {
   if (btnCopySyuting) {
     if (currentBatchItems.length > 0) {
       btnCopySyuting.disabled = false;
@@ -363,6 +363,16 @@ function updateSelesaiBtnState() {
     } else {
       btnCopySyuting.disabled = true;
       btnCopySyuting.className = "bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3 py-2 rounded-xl font-bold opacity-60 cursor-not-allowed";
+    }
+  }
+
+  if (btnCopyLinksAll) {
+    if (currentBatchItems.length > 0) {
+      btnCopyLinksAll.disabled = false;
+      btnCopyLinksAll.className = "bg-slate-900 hover:bg-black text-white text-xs px-3 py-2 rounded-xl font-bold cursor-pointer transition-all";
+    } else {
+      btnCopyLinksAll.disabled = true;
+      btnCopyLinksAll.className = "bg-slate-100 text-slate-400 border border-slate-200 text-xs px-3 py-2 rounded-xl font-bold opacity-60 cursor-not-allowed";
     }
   }
 }
@@ -382,6 +392,21 @@ if (btnCopySyuting) {
       showCustomAlert("Berhasil Disalin! 📋", "Poin-poin video siap digunakan.");
     } catch (e) {
       showCustomAlert("Gagal", "Tidak dapat menyalin ke clipboard.");
+    }
+  });
+}
+
+// LOGIKA TOMBOL COPY LINK ALL
+if (btnCopyLinksAll) {
+  btnCopyLinksAll.addEventListener("click", async () => {
+    if (currentBatchItems.length === 0) return;
+    // Menggabungkan semua URL video dengan baris baru (newline)
+    let linksText = currentBatchItems.map(item => item.url).join("\n");
+    try {
+      await navigator.clipboard.writeText(linksText);
+      showCustomAlert("Berhasil Disalin! 🔗", `Semua link Sesi #${activeBatch} (${currentBatchItems.length} link) berhasil disalin.`);
+    } catch (e) {
+      showCustomAlert("Gagal", "Tidak dapat menyalin link ke clipboard.");
     }
   });
 }
