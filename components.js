@@ -71,6 +71,15 @@ export function renderSyutingList(currentBatchItems, activeChannel, listSyutingE
 
     const authorTag = item.author || extractUsernameFromUrl(item.url);
 
+    // Tombol panah atur posisi (Naik / Turun)
+    const moveUpBtn = index > 0 
+      ? `<button onclick="window.moveItemOrder('${item.id}', 'up')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 p-1 rounded-lg text-[10px] font-bold cursor-pointer" title="Geser ke Atas">⬆️</button>` 
+      : `<span class="text-slate-200 p-1 text-[10px]">⬆️</span>`;
+
+    const moveDownBtn = index < currentBatchItems.length - 1 
+      ? `<button onclick="window.moveItemOrder('${item.id}', 'down')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 p-1 rounded-lg text-[10px] font-bold cursor-pointer" title="Geser ke Bawah">⬇️</button>` 
+      : `<span class="text-slate-200 p-1 text-[10px]">⬇️</span>`;
+
     return `
       <div data-id="${item.id}" class="bg-white border border-slate-200/80 hover:border-slate-300 transition-all p-3.5 sm:p-4 rounded-2xl flex flex-row gap-3.5 items-start shadow-2xs w-full min-w-0">
         ${imgHtml}
@@ -79,7 +88,10 @@ export function renderSyutingList(currentBatchItems, activeChannel, listSyutingE
             <div class="flex flex-wrap items-center justify-between gap-1 w-full min-w-0">
               <div class="flex flex-wrap items-center gap-1.5 min-w-0">
                 <span class="${badgeClass} text-[10px] font-black px-2 py-0.5 rounded-md">#${index + 1}</span>
-                <span class="bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded-md font-bold truncate max-w-[100px]">👤 ${escapeHtml(authorTag)}</span>
+                <div class="flex items-center gap-0.5 bg-slate-50 border border-slate-200 rounded-lg p-0.5">
+                  ${moveUpBtn}
+                  ${moveDownBtn}
+                </div>
                 <span class="bg-slate-900 text-white text-[10px] px-2 py-0.5 rounded-md font-semibold">⏱️ ${formatDurationText(item.duration)}</span>
               </div>
               <button onclick="window.toggleStatus('${item.id}', 'bank')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] px-2 py-1 rounded-lg font-bold transition-all cursor-pointer">Kembalikan</button>
