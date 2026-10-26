@@ -11,41 +11,28 @@
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     
-    /* Efek Pola Background Halus */
-    .bg-pattern-gosip {
+    .bg-logo-gosip {
       background-color: #fff1f2;
-      background-image: radial-gradient(#fda4af 0.75px, transparent 0.75px), radial-gradient(#fda4af 0.75px, #fff1f2 0.75px);
-      background-size: 30px 30px;
-      background-position: 0 0, 15px 15px;
+      background-image: url('logo-gosip.png');
+      background-repeat: repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      background-size: 120px;
+      opacity: 0.95;
     }
-    .bg-pattern-politik {
-      background-color: #f8fafc;
-      background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px), radial-gradient(#cbd5e1 0.75px, #f8fafc 0.75px);
-      background-size: 30px 30px;
-      background-position: 0 0, 15px 15px;
-    }
-/* Tambahkan style logo watermark ini */
-  .bg-logo-gosip {
-    background-color: #fff1f2;
-    background-image: url('logo-gosip.png'); /* Ganti dengan nama file logo gosip kamu */
-    background-repeat: repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: 150px; /* Ukuran besar logo di background */
-  }
 
-  .bg-logo-politik {
-    background-color: #f8fafc;
-    background-image: url('logo-politik.png'); /* Ganti dengan nama file logo politik kamu */
-    background-repeat: repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: 150px; /* Ukuran besar logo di background */
-  }
-    
+    .bg-logo-politik {
+      background-color: #f8fafc;
+      background-image: url('logo-politik.png');
+      background-repeat: repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      background-size: 120px;
+      opacity: 0.95;
+    }
   </style>
 </head>
-<body id="bodyBg" class="bg-pattern-gosip min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500">
+<body id="bodyBg" class="bg-logo-gosip min-h-screen w-full max-w-full overflow-x-hidden p-3 sm:p-6 lg:p-8 antialiased text-neutral-800 transition-all duration-500">
 
   <div class="max-w-6xl w-full mx-auto space-y-6 min-w-0 box-border">
     
@@ -70,7 +57,7 @@
       </div>
     </div>
 
-<!-- CHANNEL NAV TAB SWITCHER -->
+    <!-- CHANNEL NAV TAB SWITCHER (Politik di Kiri, Gosip di Kanan) -->
     <div class="flex items-center gap-2 bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200/80 shadow-2xs">
       <button id="tabPolitik" class="flex-1 py-2.5 text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer">
         🏛️ YT Intip Politik
