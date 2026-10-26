@@ -10,7 +10,6 @@ export function escapeHtml(str) {
 
 export function formatDurationText(totalSec) {
   if (!totalSec || totalSec <= 0) return "0s";
-  if (totalSec < 60) return `${totalSec}s`;
   const mins = Math.floor(totalSec / 60);
   const secs = totalSec % 60;
   return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
@@ -59,7 +58,7 @@ export function calculateYtEditDuration(items) {
 export function renderSyutingList(currentBatchItems, activeChannel, listSyutingElement) {
   if (!listSyutingElement) return;
   if (currentBatchItems.length === 0) {
-    listSyutingElement.innerHTML = `<p class="text-neutral-400 text-sm text-center py-10 font-medium bg-neutral-50 rounded-2xl border border-dashed border-neutral-200">Belum ada video di sesi ini. Pilih dari Bank Video!</p>`;
+    listSyutingElement.innerHTML = `<p class="text-slate-400 text-xs text-center py-10 font-medium bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">Belum ada video di sesi ini. Pilih dari Bank Video!</p>`;
     return;
   }
 
@@ -67,32 +66,32 @@ export function renderSyutingList(currentBatchItems, activeChannel, listSyutingE
 
   listSyutingElement.innerHTML = currentBatchItems.map((item, index) => {
     const imgHtml = item.thumbnail 
-      ? `<img src="${item.thumbnail}" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://placehold.co/160x200/f5f5f5/a3a3a3?text=Expired';" class="w-32 sm:w-36 h-40 sm:h-44 object-cover rounded-2xl flex-shrink-0 bg-neutral-100 border border-neutral-200" />`
-      : `<div class="w-32 sm:w-36 h-40 sm:h-44 bg-neutral-100 rounded-2xl flex items-center justify-center text-xs text-neutral-400 flex-shrink-0 border border-neutral-200">No Image</div>`;
+      ? `<img src="${item.thumbnail}" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://placehold.co/160x200/f5f5f5/a3a3a3?text=Expired';" class="w-28 sm:w-32 h-36 sm:h-40 object-cover rounded-2xl flex-shrink-0 bg-slate-100 border border-slate-200" />`
+      : `<div class="w-28 sm:w-32 h-36 sm:h-40 bg-slate-100 rounded-2xl flex items-center justify-center text-xs text-slate-400 flex-shrink-0 border border-slate-200">No Image</div>`;
 
     const authorTag = item.author || extractUsernameFromUrl(item.url);
-    const postedDateTag = item.postedAt || extractTikTokPostDate(item.url);
-    const categoryTag = item.category || "Lainnya";
 
     return `
-      <div data-id="${item.id}" class="bg-white border border-neutral-200/80 hover:border-neutral-300 transition-all p-4 rounded-3xl flex flex-row gap-4 items-start shadow-2xs w-full min-w-0">
+      <div data-id="${item.id}" class="bg-white border border-slate-200/80 hover:border-slate-300 transition-all p-3.5 sm:p-4 rounded-2xl flex flex-row gap-3.5 items-start shadow-2xs w-full min-w-0">
         ${imgHtml}
-        <div class="flex-1 space-y-2.5 min-w-0 flex flex-col justify-between self-stretch">
-          <div class="space-y-2 w-full min-w-0">
-            <div class="flex flex-wrap items-center justify-between gap-1.5 w-full min-w-0">
+        <div class="flex-1 space-y-2 min-w-0 flex flex-col justify-between self-stretch">
+          <div class="space-y-1.5 w-full min-w-0">
+            <div class="flex flex-wrap items-center justify-between gap-1 w-full min-w-0">
               <div class="flex flex-wrap items-center gap-1.5 min-w-0">
-                <div class="drag-handle cursor-grab text-neutral-400 px-1.5 py-0.5 rounded border border-neutral-200 bg-white text-xs font-bold flex items-center gap-1">⋮⋮</div>
-                <span class="${badgeClass} text-xs font-black px-2.5 py-0.5 rounded-full">#${index + 1}</span>
-                <span class="bg-neutral-100 text-neutral-700 text-xs px-2.5 py-0.5 rounded-xl font-bold truncate max-w-[120px]">👤 ${escapeHtml(authorTag)}</span>
-                <span class="bg-neutral-100 text-neutral-700 text-xs px-2.5 py-0.5 rounded-xl font-semibold">⏱️ ${formatDurationText(item.duration)}</span>
+                <span class="${badgeClass} text-[10px] font-black px-2 py-0.5 rounded-md">#${index + 1}</span>
+                <span class="bg-slate-100 text-slate-700 text-[10px] px-2 py-0.5 rounded-md font-bold truncate max-w-[100px]">👤 ${escapeHtml(authorTag)}</span>
+                <span class="bg-slate-900 text-white text-[10px] px-2 py-0.5 rounded-md font-semibold">⏱️ ${formatDurationText(item.duration)}</span>
               </div>
-              <button onclick="window.toggleStatus('${item.id}', 'bank')" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs px-2.5 py-1 rounded-xl font-bold transition-all ml-auto cursor-pointer">Kembalikan</button>
+              <button onclick="window.toggleStatus('${item.id}', 'bank')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] px-2 py-1 rounded-lg font-bold transition-all cursor-pointer">Kembalikan</button>
             </div>
-            <p class="text-xs sm:text-sm font-bold text-neutral-800 line-clamp-3">${escapeHtml(item.caption)}</p>
+            <p class="text-xs sm:text-sm font-bold text-slate-800 line-clamp-2">${escapeHtml(item.caption)}</p>
           </div>
-          <div class="flex justify-between items-center text-xs pt-2 border-t border-neutral-100 w-full">
-            <a href="${item.url}" target="_blank" class="text-neutral-900 font-bold hover:underline">Buka TikTok ↗</a>
-            <button onclick="window.openEditModal('${item.id}')" class="text-neutral-500 hover:text-neutral-900 font-semibold cursor-pointer">Edit</button>
+          <div class="flex justify-between items-center text-xs pt-2 border-t border-slate-100 w-full">
+            <div class="flex items-center gap-2">
+              <a href="${item.url}" target="_blank" class="text-slate-900 font-bold hover:underline">Buka TikTok ↗</a>
+              <button onclick="window.copySingleLink('${escapeHtml(item.url)}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-2 py-1 rounded-lg text-[11px] transition-all cursor-pointer flex items-center gap-1">📋 Copy Link</button>
+            </div>
+            <button onclick="window.openEditModal('${item.id}')" class="text-slate-500 hover:text-slate-900 font-semibold cursor-pointer">Edit</button>
           </div>
         </div>
       </div>
@@ -105,7 +104,7 @@ export function renderHistoryList(historyDocs, activeChannel, historyListElement
   const filtered = historyDocs.filter(h => h.channel === activeChannel || (!h.channel && activeChannel === "gosip"));
 
   if (filtered.length === 0) {
-    historyListElement.innerHTML = `<p class="text-neutral-400 text-center py-16 font-medium">Belum ada riwayat syuting.</p>`;
+    historyListElement.innerHTML = `<p class="text-slate-400 text-center py-16 font-medium text-xs">Belum ada riwayat syuting.</p>`;
     return;
   }
 
@@ -116,22 +115,22 @@ export function renderHistoryList(historyDocs, activeChannel, historyListElement
     }
 
     const vHtml = (session.videos || []).map((v, i) => `
-      <div class="bg-white border border-neutral-200 p-3 rounded-2xl flex gap-3 items-center">
-        <div class="flex-1 min-w-0 space-y-1">
-          <p class="text-xs font-bold text-neutral-900">#${i + 1} - ${escapeHtml(v.author)} (${formatDurationText(v.duration)})</p>
-          <p class="text-xs text-neutral-700 line-clamp-1">${escapeHtml(v.caption)}</p>
+      <div class="bg-white border border-slate-200 p-2.5 rounded-xl flex gap-2 items-center">
+        <div class="flex-1 min-w-0 space-y-0.5">
+          <p class="text-xs font-bold text-slate-900">#${i + 1} - ${escapeHtml(v.author)} (${formatDurationText(v.duration)})</p>
+          <p class="text-[11px] text-slate-600 line-clamp-1">${escapeHtml(v.caption)}</p>
         </div>
       </div>
     `).join("");
 
     return `
-      <div class="bg-neutral-50 border border-neutral-200 p-4 sm:p-5 rounded-3xl space-y-3">
-        <div class="flex justify-between items-center border-b border-neutral-200 pb-3 flex-wrap gap-2">
-          <span class="bg-neutral-200 text-neutral-800 text-xs font-bold px-3 py-1 rounded-full">${escapeHtml(session.batchName)}</span>
-          <span class="text-xs font-bold text-neutral-600">${dateStr}</span>
+      <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-2.5">
+        <div class="flex justify-between items-center border-b border-slate-200 pb-2 flex-wrap gap-2">
+          <span class="bg-slate-200 text-slate-800 text-xs font-bold px-2.5 py-0.5 rounded-md">${escapeHtml(session.batchName)}</span>
+          <span class="text-[11px] font-bold text-slate-500">${dateStr}</span>
           <button onclick="window.deleteHistorySession('${session.id}')" class="text-xs text-red-600 font-bold ml-auto cursor-pointer">Hapus</button>
         </div>
-        <div class="space-y-2">${vHtml}</div>
+        <div class="space-y-1.5">${vHtml}</div>
       </div>
     `;
   }).join("");
