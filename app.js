@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 import { calculateYtEditDuration, renderSyutingList, renderHistoryList, formatDurationText, extractUsernameFromUrl, extractTikTokPostDate, escapeHtml } from "./components.js";
 
 // Firebase Config (intip-plan)
@@ -233,7 +233,7 @@ async function saveVideoData() {
       category: manualCategory,
       status: "bank",
       batch: 1,
-      order: 999,
+      order: 0, // Set awal ke 0 agar video baru otomatis menempati posisi teratas
       createdAt: serverTimestamp()
     });
     tiktokUrlInput.value = "";
@@ -321,9 +321,17 @@ window.filterCategory = (cat) => {
 
 function renderApp(items) {
   const filtered = items.filter(i => i.channel === activeChannel || (!i.channel && activeChannel === "gosip"));
+  
+  // Urutkan Siap Syuting berdasarkan properti order
   currentSyutingItems = filtered.filter(i => i.status === "syuting").sort((a, b) => (a.order || 0) - (b.order || 0));
   currentBatchItems = currentSyutingItems.filter(i => (i.batch || 1) === activeBatch);
-  currentBankItems = filtered.filter(i => i.status === "bank");
+  
+  // Urutkan Bank Video berdasarkan waktu pembuatan terbaru (descending)
+  currentBankItems = filtered.filter(i => i.status === "bank").sort((a, b) => {
+    const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+    const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+    return timeB - timeA;
+  });
 
   const maxSlot = sessionSlots[activeBatch] || 10;
   if (countSyuting) countSyuting.innerText = `${currentBatchItems.length} / ${maxSlot}`;
@@ -366,7 +374,6 @@ function updateSyutingButtonsState() {
     }
   }
 
-  // Tombol Copy Link All bebas aktif kapanpun selama ada video di sesi ini
   if (btnCopyLinksAll) {
     if (currentBatchItems.length > 0) {
       btnCopyLinksAll.disabled = false;
@@ -387,6 +394,31 @@ function updateSyutingButtonsState() {
     }
   }
 }
+
+// Fungsi Menggeser Urutan Video di Sesi Syuting (Naik / Turun)
+window.moveItemOrder = async (id, direction) => {
+  const index = currentBatchItems.findIndex(i => i.id === id);
+  if (index === -1) return;
+
+  const targetIndex = direction === "up" ? index - 1 : index + 1;
+  if (targetIndex < 0 || targetIndex >= currentBatchItems.length) return;
+
+  // Tukar posisi item
+  const temp = currentBatchItems[index];
+  currentBatchItems[index] = currentBatchItems[targetIndex];
+  currentBatchItems[targetIndex] = temp;
+
+  // Perbarui nilai order di database untuk semua item dalam batch ini
+  try {
+    const updatePromises = currentBatchItems.map((item, idx) => {
+      const ref = doc(db, "videos", item.id);
+      return updateDoc(ref, { order: idx });
+    });
+    await Promise.all(updatePromises);
+  } catch (e) {
+    showCustomAlert("Gagal", "Gagal mengubah urutan video.");
+  }
+};
 
 if (btnCopySyuting) {
   btnCopySyuting.addEventListener("click", async () => {
@@ -453,9 +485,10 @@ window.toggleStatus = async (id, status) => {
     if (currentBatchItems.length >= (sessionSlots[activeBatch] || 10)) {
       return showCustomAlert("Slot Penuh!", "Tambahkan kuota slot sesi ini.");
     }
-    await updateDoc(ref, { status: "syuting", batch: activeBatch, order: currentBatchItems.length + 1 });
+    // Masukkan ke urutan paling akhir di batch aktif
+    await updateDoc(ref, { status: "syuting", batch: activeBatch, order: currentBatchItems.length });
   } else {
-    await updateDoc(ref, { status: status });
+    await updateDoc(ref, { status: status, order: 0 });
   }
 };
 
@@ -512,4 +545,4 @@ onSnapshot(historyRef, (snapshot) => {
   renderHistoryList(allRawHistory, activeChannel, historyList);
 });
 
-switchChannel("politik");
+switchChannel("gosip");
